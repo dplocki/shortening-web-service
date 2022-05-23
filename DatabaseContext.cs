@@ -1,0 +1,13 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ShorteningWebService
+{
+    public class DatabaseContext : DbContext
+    {
+        public DbSet<LinkMap> LinkMaps { get; set; }
+
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
+        }
+    }
+}
