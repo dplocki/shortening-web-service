@@ -8,51 +8,41 @@ export class ShowAllLinks extends Component {
     this.state = { linkMaps: [], loading: true };
   }
 
-  componentDidMount() {
-    this.populateWeatherData();
-  }
-
-  static renderLinksTable(linkMaps) {
-    return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
-        <thead>
-          <tr>
-            <th>Shorted</th>
-            <th>Full link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {linkMaps.map(linkMap =>
-            <tr key={linkMap.date}>
-              <td>{linkMap.date}</td>
-              <td>{linkMap.temperatureC}</td>
-              <td>{linkMap.temperatureF}</td>
-              <td>{linkMap.summary}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    );
+  async componentDidMount() {
+    await this.populateData();
   }
 
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : ShowAllLinks.renderLinksTable(this.state.forecasts);
+      : (<table className='table table-striped' aria-labelledby="tabelLabel">
+          <thead>
+            <tr>
+              <th>Shorted</th>
+              <th>Full link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.linkMaps.map(linkMap =>
+              <tr key={linkMap.date}>
+                <td>{linkMap.shorted}</td>
+                <td>{linkMap.originalLink}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>);
 
     return (
       <div>
-        <h1 id="tabelLabel" >Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
+        <h1 id="tabelLabel">All shorted links:</h1>
         {contents}
       </div>
     );
   }
 
-  async populateWeatherData() {
-    const response = await fetch('linkmap');
+  async populateData() {
+    const response = await fetch('linkmap/all');
     const data = await response.json();
-      console.log(data);
     this.setState({ linkMaps: data, loading: false });
   }
 }
