@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 
-const VALID_URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const VALID_URL_REGEX = /^(https?):\/\/.+$/;
 
 export class CreateShortLink extends Component {
   constructor(props) {
@@ -43,6 +43,7 @@ export class CreateShortLink extends Component {
       const respond = await result.json();
       this.setState({
         ...this.state,
+        value: '',
         generatedLinks: [
           ...this.state.generatedLinks,
           respond.shorted,
@@ -74,7 +75,7 @@ export class CreateShortLink extends Component {
           <input type="hidden" name="id" value={this.state.id}></input>
           <div className="form-group">
             <label>Past link to short:</label>
-            <textarea className="form-control" rows="3" onChange={this.handleChange}></textarea>
+            <textarea className="form-control" rows="3" onChange={this.handleChange} value={this.state.value}></textarea>
           </div>
 
           <button type="submit" className="btn btn-primary">Submit</button>

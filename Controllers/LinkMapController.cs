@@ -56,7 +56,6 @@ namespace ShorteningWebService.Controllers
             return databaseContext.LinkMaps.ToArray();
         }
 
-
         private static Random random = new Random();
         private static string RandomString()
         {
