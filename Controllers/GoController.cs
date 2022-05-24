@@ -3,7 +3,6 @@
 namespace ShorteningWebService.Controllers
 {
     [ApiController]
-    [Route("go")]
     public class GoController : ControllerBase
     {
         private DatabaseContext databaseContext;
@@ -14,6 +13,7 @@ namespace ShorteningWebService.Controllers
         }
 
         [HttpGet]
+        [Route("~/go/{shorted}")]
         public ActionResult Go(string shorted)
         {
             var result = databaseContext.LinkMaps.FirstOrDefault(lm => lm.Shorted.Equals(shorted));
@@ -31,7 +31,7 @@ namespace ShorteningWebService.Controllers
 
             this.databaseContext.Add(new LinkMapUse()
             {
-                LinkMap = result,
+                LinkMap = result.Id,
                 When = DateTime.Now,
             });
             this.databaseContext.SaveChanges();

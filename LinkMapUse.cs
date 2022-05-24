@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace ShorteningWebService
+﻿namespace ShorteningWebService
 {
-    [Keyless]
     public class LinkMapUse
     {
-        public LinkMap LinkMap { get; set; }
+        public int Id { get; set; }
+        public Guid LinkMap { get; set; }
         public DateTime When { get; set; }
     }
 }
