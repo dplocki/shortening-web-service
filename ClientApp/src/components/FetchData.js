@@ -1,35 +1,33 @@
 import React, { Component } from 'react';
 
-export class FetchData extends Component {
-  static displayName = FetchData.name;
+export class ShowAllLinks extends Component {
+  static displayName = ShowAllLinks.name;
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+    this.state = { linkMaps: [], loading: true };
   }
 
   componentDidMount() {
     this.populateWeatherData();
   }
 
-  static renderForecastsTable(forecasts) {
+  static renderLinksTable(linkMaps) {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>Shorted</th>
+            <th>Full link</th>
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
+          {linkMaps.map(linkMap =>
+            <tr key={linkMap.date}>
+              <td>{linkMap.date}</td>
+              <td>{linkMap.temperatureC}</td>
+              <td>{linkMap.temperatureF}</td>
+              <td>{linkMap.summary}</td>
             </tr>
           )}
         </tbody>
@@ -40,7 +38,7 @@ export class FetchData extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+      : ShowAllLinks.renderLinksTable(this.state.forecasts);
 
     return (
       <div>
@@ -52,8 +50,9 @@ export class FetchData extends Component {
   }
 
   async populateWeatherData() {
-    const response = await fetch('weatherforecast');
+    const response = await fetch('linkmap');
     const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
+      console.log(data);
+    this.setState({ linkMaps: data, loading: false });
   }
 }
