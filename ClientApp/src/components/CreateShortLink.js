@@ -1,12 +1,11 @@
 ﻿import React, { Component } from 'react';
-import { isConditionalTypeNode } from 'typescript';
 
 const VALID_URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
 export class CreateShortLink extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: '', id: '' };
+    this.state = { value: '', id: '', generatedLinks: [] };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -16,13 +15,43 @@ export class CreateShortLink extends Component {
   }
 
   handleChange(event) { this.setState({ value: event.target.value.trim() }); }
-  handleSubmit(event) {
+  async handleSubmit(event) {
+    event.preventDefault();
+
     if (this.handleValidation()) {
-      alert("Form submitted");
-      alert('Value: ' + this.state.value);
+      const createResult = await fetch('linkmap/add', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          id: this.state.id,
+          url: this.state.value
+        })
+      });
+
+      if (createResult.status !== 200) {
+        alert('Sorry, connection error during create')
+      }
+
+      const result = await fetch('linkmap?' + new URLSearchParams({
+        id: this.state.id
+      }));
+
+      if (result.status !== 200) {
+        alert('Sorry, connection error')
+      }
+
+      const respond = await result.json();
+      this.setState({
+        ...this.state,
+        generatedLinks: [
+          ...this.state.generatedLinks,
+          respond.shorted,
+        ]
+      })
+
+      await this.populateId();
     } else {
-      alert("Form has errors.");
-      event.preventDefault();
+      alert("Provided URL is invalid.");
     }
   }
 
@@ -37,16 +66,26 @@ export class CreateShortLink extends Component {
   }
 
   render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="hidden" name="id" value={this.state.id}></input>
-        <div className="form-group">
-          <label>Past link to short:</label>
-          <textarea className="form-control" rows="3" onChange={this.handleChange}></textarea>
-        </div>
+    const links = this.state.generatedLinks.map((shorted, i) => <li key={i}><a href={'go/' + shorted}>{shorted}</a></li>);
 
-        <button type="submit" className="btn btn-primary">Submit</button>
-      </form>
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <input type="hidden" name="id" value={this.state.id}></input>
+          <div className="form-group">
+            <label>Past link to short:</label>
+            <textarea className="form-control" rows="3" onChange={this.handleChange}></textarea>
+          </div>
+
+          <button type="submit" className="btn btn-primary">Submit</button>
+        </form>
+
+        <p>Generated links:</p>
+
+        <ul>
+          {links}
+        </ul>
+      </div>
     );
   }
 }
