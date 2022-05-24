@@ -14,6 +14,13 @@ namespace ShorteningWebService.Controllers
         }
 
         [HttpGet]
+        [Route("NewID")]
+        public Guid GetNewGuid()
+        {
+            return Guid.NewGuid();
+        }
+
+        [HttpGet]
         public IEnumerable<LinkMap> Get()
         {
             return databaseContext.LinkMaps.ToArray();
