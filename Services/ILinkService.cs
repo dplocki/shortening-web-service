@@ -7,6 +7,6 @@ namespace ShorteningWebService.Services
         LinkMap? GetLinkMapByShorted(string shorted);
         void BuildLinkMap(Guid id, string url);
         IEnumerable<LinkMap> GetAllLinksMaps();
-        LinkMap GetLinkMap(Guid id);
+        LinkMap? GetLinkMap(Guid id);
     }
 }

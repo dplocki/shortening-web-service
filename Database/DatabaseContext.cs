@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShorteningWebService.Models;
 
-namespace ShorteningWebService
+namespace ShorteningWebService.Database
 {
     public class DatabaseContext : DbContext
     {
@@ -9,7 +9,8 @@ namespace ShorteningWebService
         public DbSet<LinkMapUse> LinkMapUses { get; set; } = null!;
         public DbSet<LinkMapError> LinkMapErrors { get; set; } = null!;
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+            : base(options)
         {
         }
     }

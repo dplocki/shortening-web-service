@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ShorteningWebService;
+using ShorteningWebService.Database;
 using ShorteningWebService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
