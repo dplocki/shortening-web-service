@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using ShorteningWebService;
+using ShorteningWebService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("MainDatabase")));
+builder.Services.AddScoped<ILinkService, LinkService>();
+builder.Services.AddScoped<IVisitReportService, VisitReportService>();
 
 var app = builder.Build();
 

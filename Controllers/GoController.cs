@@ -1,41 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShorteningWebService.Models;
+using ShorteningWebService.Services;
 
 namespace ShorteningWebService.Controllers
 {
     [ApiController]
     public class GoController : ControllerBase
     {
-        private DatabaseContext databaseContext;
+        private ILinkService linkService;
+        private IVisitReportService visitReportService;
 
-        public GoController(DatabaseContext databaseContext)
+        public GoController(IVisitReportService visitReportService, ILinkService linkService)
         {
-            this.databaseContext = databaseContext;
+            this.visitReportService = visitReportService;
+            this.linkService = linkService;
         }
 
         [HttpGet]
         [Route("~/go/{shorted}")]
         public ActionResult Go(string shorted)
         {
-            var result = databaseContext.LinkMaps.FirstOrDefault(lm => lm.Shorted.Equals(shorted));
+            var result = linkService.GetLinkMapByShorted(shorted);
             if (result == null)
             {
-                this.databaseContext.Add(new LinkMapError()
-                {
-                    Link = shorted,
-                    Time = DateTime.Now,
-                });
-
-                this.databaseContext.SaveChanges();
+                visitReportService.SaveInvalidVisit(shorted);
                 return NotFound();
             }
 
-            this.databaseContext.Add(new LinkMapUse()
-            {
-                LinkMap = result.Id,
-                When = DateTime.Now,
-            });
-            this.databaseContext.SaveChanges();
+            visitReportService.SaveVisit(result);
 
             return Redirect(result.OriginalLink);
         }
