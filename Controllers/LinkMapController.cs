@@ -9,28 +9,32 @@ namespace ShorteningWebService.Controllers
     public class LinkMapController : ControllerBase
     {
         private readonly ILinkService linkService;
+        private readonly IGuidService guidService;
 
-        public LinkMapController(ILinkService linkService)
+        public LinkMapController(ILinkService linkService, IGuidService guidService)
         {
             this.linkService = linkService;
+            this.guidService = guidService;
         }
 
         [HttpGet]
         [Route("NewId")]
         public string GetNewGuid()
         {
-            return Guid.NewGuid().ToString();
+            return guidService.NewGuid().ToString();
         }
 
         [HttpPost]
         [Route("Add")]
         public ActionResult Add(LinkMapCreateDTO linkMapCreateDTO)
         {
-            var guid = Guid.Parse(linkMapCreateDTO.Id);
+            if (guidService.TryParseGuid(linkMapCreateDTO.Id, out var guid))
+            {
+                linkService.BuildLinkMap(guid, linkMapCreateDTO.Url);
+                return Ok();
+            }
 
-            linkService.BuildLinkMap(guid, linkMapCreateDTO.Url);
-
-            return Ok();
+            return BadRequest();
         }
 
         [HttpGet]
