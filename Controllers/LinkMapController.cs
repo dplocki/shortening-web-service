@@ -46,7 +46,7 @@ namespace ShorteningWebService.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
+        [Route("All")]
         public IEnumerable<LinkMap> GetAll()
         {
             return linkService.GetAllLinksMaps();
