@@ -16,13 +16,13 @@ namespace ShorteningWebService.Controllers
         }
 
         [HttpGet]
-        [Route("~/go/{shorted}")]
-        public ActionResult Go(string shorted)
+        [Route("~/go/{shortened}")]
+        public ActionResult Go(string shortened)
         {
-            var result = linkService.GetLinkMapByShorted(shorted);
+            var result = linkService.GetLinkMapByShortened(shortened);
             if (result == null)
             {
-                visitReportService.SaveInvalidVisit(shorted);
+                visitReportService.SaveInvalidVisit(shortened);
                 return NotFound();
             }
 

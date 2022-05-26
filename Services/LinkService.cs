@@ -26,7 +26,7 @@ namespace ShorteningWebService.Services
             databaseContext.SaveChanges();
         }
 
-        public LinkMap? GetLinkMapByShorted(string shorted)
+        public LinkMap? GetLinkMapByShortened(string shorted)
         {
             return databaseContext
                 .LinkMaps
