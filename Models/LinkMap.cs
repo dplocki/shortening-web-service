@@ -6,7 +6,7 @@ namespace ShorteningWebService.Models
     {
         [Key]
         public Guid Id { get; set; }
-        public string OriginalLink { get; set; }
-        public string Shorted { get; set; }
+        public string OriginalLink { get; set; } = default!;
+        public string Shorted { get; set; } = default!;
     }
 }
