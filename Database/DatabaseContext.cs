@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShorteningWebService.Models;
+using ShorteningWebService.Database.Entities;
 
 namespace ShorteningWebService.Database
 {

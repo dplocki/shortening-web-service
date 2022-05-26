@@ -1,4 +1,4 @@
-﻿namespace ShorteningWebService.Models
+﻿namespace ShorteningWebService.Database.Entities
 {
     public class LinkMapError
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShorteningWebService.Models;
+using ShorteningWebService.Controllers.DTO;
+using ShorteningWebService.Database.Entities;
 using ShorteningWebService.Services;
 
 namespace ShorteningWebService.Controllers

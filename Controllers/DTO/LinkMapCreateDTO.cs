@@ -1,4 +1,4 @@
-﻿namespace ShorteningWebService.Models
+﻿namespace ShorteningWebService.Controllers.DTO
 {
     public class LinkMapCreateDTO
     {
