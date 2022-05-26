@@ -7,6 +7,10 @@ Inspired by tech task.
 * .net 6.0
 * React 17
 
+### Database
+
+This project is using the SQlite database (require creating before running).
+
 ## Setup
 
 * restore nuget packages
