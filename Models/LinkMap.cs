@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShorteningWebService
+namespace ShorteningWebService.Models
 {
     public class LinkMap
     {

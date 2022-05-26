@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShorteningWebService.Models;
 
 namespace ShorteningWebService.Controllers
 {

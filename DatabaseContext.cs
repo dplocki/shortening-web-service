@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShorteningWebService.Models;
 
 namespace ShorteningWebService
 {

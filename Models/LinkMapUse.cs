@@ -1,4 +1,4 @@
-﻿namespace ShorteningWebService
+﻿namespace ShorteningWebService.Models
 {
     public class LinkMapUse
     {
