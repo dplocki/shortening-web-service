@@ -8,7 +8,7 @@ namespace ShorteningWebService.Controllers
     [Route("[controller]")]
     public class LinkMapController : ControllerBase
     {
-        private ILinkService linkService;
+        private readonly ILinkService linkService;
 
         public LinkMapController(ILinkService linkService)
         {

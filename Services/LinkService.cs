@@ -5,8 +5,8 @@ namespace ShorteningWebService.Services
 {
     public class LinkService : ILinkService
     {
-        private static Random random = new Random();
-        private DatabaseContext databaseContext;
+        private static readonly Random random = new();
+        private readonly DatabaseContext databaseContext;
 
         public LinkService(DatabaseContext databaseContext)
         {

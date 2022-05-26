@@ -6,8 +6,8 @@ namespace ShorteningWebService.Controllers
     [ApiController]
     public class GoController : ControllerBase
     {
-        private ILinkService linkService;
-        private IVisitReportService visitReportService;
+        private readonly ILinkService linkService;
+        private readonly IVisitReportService visitReportService;
 
         public GoController(IVisitReportService visitReportService, ILinkService linkService)
         {

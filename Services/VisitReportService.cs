@@ -5,7 +5,7 @@ namespace ShorteningWebService.Services
 {
     internal class VisitReportService : IVisitReportService
     {
-        private DatabaseContext databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public VisitReportService(DatabaseContext databaseContext)
         {
