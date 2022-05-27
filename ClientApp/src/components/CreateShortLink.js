@@ -30,6 +30,7 @@ export class CreateShortLink extends Component {
 
       if (createResult.status !== 200) {
         alert('Sorry, connection error during create')
+        return;
       }
 
       const result = await fetch('linkmap?' + new URLSearchParams({
@@ -37,7 +38,8 @@ export class CreateShortLink extends Component {
       }));
 
       if (result.status !== 200) {
-        alert('Sorry, connection error')
+        alert('Sorry, connection error');
+        return;
       }
 
       const respond = await result.json();
