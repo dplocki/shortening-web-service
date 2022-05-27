@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShorteningWebService.Controllers.DTO;
-using ShorteningWebService.Database.Entities;
 using ShorteningWebService.Services;
 
 namespace ShorteningWebService.Controllers
@@ -39,12 +38,16 @@ namespace ShorteningWebService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<LinkMap> Get(Guid id)
+        public ActionResult<LinkMapGetDTO> Get(Guid id)
         {
             var result = linkService.GetLinkMap(id);
             if (result != null)
             {
-                return result;
+                return new LinkMapGetDTO()
+                {
+                    OriginalLink = result.OriginalLink,
+                    Shorted = result.Shorted
+                };
             }
 
             return NotFound();
@@ -52,9 +55,15 @@ namespace ShorteningWebService.Controllers
 
         [HttpGet]
         [Route("All")]
-        public IEnumerable<LinkMap> GetAll()
+        public IEnumerable<LinkMapGetDTO> GetAll()
         {
-            return linkService.GetAllLinksMaps();
+            return linkService
+                .GetAllLinksMaps()
+                .Select(lm => new LinkMapGetDTO()
+                {
+                    OriginalLink = lm.OriginalLink,
+                    Shorted = lm.Shorted
+                });
         }
     }
 }
