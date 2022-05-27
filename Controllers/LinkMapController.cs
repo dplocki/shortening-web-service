@@ -26,15 +26,17 @@ namespace ShorteningWebService.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public ActionResult Add(LinkMapCreateDTO linkMapCreateDTO)
+        public ActionResult Add(LinkMapAddDTO linkMapCreateDTO)
         {
-            if (guidService.TryParseGuid(linkMapCreateDTO.Id, out var guid))
+            if (ModelState.IsValid
+                && guidService.TryParseGuid(linkMapCreateDTO.Id, out var guid)
+                && Uri.IsWellFormedUriString(linkMapCreateDTO.Url, UriKind.Absolute))
             {
                 linkService.Build(guid, linkMapCreateDTO.Url);
                 return Ok();
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpGet]
