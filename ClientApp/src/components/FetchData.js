@@ -25,7 +25,7 @@ export class ShowAllLinks extends Component {
           <tbody>
             {this.state.linkMaps.map(linkMap =>
               <tr key={linkMap.date}>
-                <td>{linkMap.shorted}</td>
+                <td><a href={'go/' + linkMap.shorted}>{linkMap.shorted}</a></td>
                 <td>{linkMap.originalLink}</td>
               </tr>
             )}
