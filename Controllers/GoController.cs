@@ -6,10 +6,10 @@ namespace ShorteningWebService.Controllers
     [ApiController]
     public class GoController : ControllerBase
     {
-        private readonly ILinkService linkService;
+        private readonly ILinkMapService linkService;
         private readonly IVisitReportService visitReportService;
 
-        public GoController(IVisitReportService visitReportService, ILinkService linkService)
+        public GoController(IVisitReportService visitReportService, ILinkMapService linkService)
         {
             this.visitReportService = visitReportService;
             this.linkService = linkService;
@@ -19,7 +19,7 @@ namespace ShorteningWebService.Controllers
         [Route("~/go/{shortened}")]
         public ActionResult Go(string shortened)
         {
-            var result = linkService.GetLinkMapByShortened(shortened);
+            var result = linkService.Get(shortened);
             if (result == null)
             {
                 visitReportService.SaveInvalidVisit(shortened);

@@ -8,10 +8,10 @@ namespace ShorteningWebService.Controllers
     [Route("[controller]")]
     public class LinkMapController : ControllerBase
     {
-        private readonly ILinkService linkService;
+        private readonly ILinkMapService linkService;
         private readonly IGuidService guidService;
 
-        public LinkMapController(ILinkService linkService, IGuidService guidService)
+        public LinkMapController(ILinkMapService linkService, IGuidService guidService)
         {
             this.linkService = linkService;
             this.guidService = guidService;
@@ -30,7 +30,7 @@ namespace ShorteningWebService.Controllers
         {
             if (guidService.TryParseGuid(linkMapCreateDTO.Id, out var guid))
             {
-                linkService.BuildLinkMap(guid, linkMapCreateDTO.Url);
+                linkService.Build(guid, linkMapCreateDTO.Url);
                 return Ok();
             }
 
@@ -40,7 +40,7 @@ namespace ShorteningWebService.Controllers
         [HttpGet]
         public ActionResult<LinkMapGetDTO> Get(Guid id)
         {
-            var result = linkService.GetLinkMap(id);
+            var result = linkService.Get(id);
             if (result != null)
             {
                 return new LinkMapGetDTO()
@@ -58,7 +58,7 @@ namespace ShorteningWebService.Controllers
         public IEnumerable<LinkMapGetDTO> GetAll()
         {
             return linkService
-                .GetAllLinksMaps()
+                .GetAll()
                 .Select(lm => new LinkMapGetDTO()
                 {
                     OriginalLink = lm.OriginalLink,

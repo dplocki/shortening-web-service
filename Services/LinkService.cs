@@ -1,9 +1,9 @@
 ﻿using ShorteningWebService.Database;
-using ShorteningWebService.Database.Entities;
+using ShorteningWebService.Services.Models;
 
 namespace ShorteningWebService.Services
 {
-    public class LinkService : ILinkService
+    public class LinkService : ILinkMapService
     {
         private static readonly Random random = new();
         private readonly DatabaseContext databaseContext;
@@ -13,9 +13,9 @@ namespace ShorteningWebService.Services
             this.databaseContext = databaseContext;
         }
 
-        public void BuildLinkMap(Guid id, string url)
+        public void Build(Guid id, string url)
         {
-            var newObject = new LinkMap()
+            var newObject = new Database.Entities.LinkMap()
             {
                 Id = id,
                 OriginalLink = url,
@@ -26,23 +26,45 @@ namespace ShorteningWebService.Services
             databaseContext.SaveChanges();
         }
 
-        public LinkMap? GetLinkMapByShortened(string shorted)
+        public LinkMap? Get(string shorted)
+        {
+            return ConvertLinkMap(databaseContext
+                .LinkMaps
+                .FirstOrDefault(lm => lm.Shorted.Equals(shorted)));
+        }
+
+        public LinkMap? Get(Guid id)
+        {
+            return ConvertLinkMap(databaseContext
+                .LinkMaps
+                .FirstOrDefault(lm => lm.Id.Equals(id)));
+        }
+
+        public IEnumerable<LinkMap> GetAll()
         {
             return databaseContext
                 .LinkMaps
-                .FirstOrDefault(lm => lm.Shorted.Equals(shorted));
+                .Select(lm => new LinkMap()
+                {
+                    Id = lm.Id,
+                    OriginalLink = lm.OriginalLink,
+                    Shorted = lm.Shorted
+                });
         }
 
-        public LinkMap? GetLinkMap(Guid id)
+        private static LinkMap? ConvertLinkMap(Database.Entities.LinkMap? linkMap)
         {
-            return databaseContext
-                .LinkMaps
-                .FirstOrDefault(lm => lm.Id.Equals(id));
-        }
+            if (linkMap == null)
+            {
+                return null;
+            }
 
-        public IEnumerable<LinkMap> GetAllLinksMaps()
-        {
-            return databaseContext.LinkMaps.ToArray();
+            return new LinkMap()
+            {
+                Id = linkMap.Id,
+                OriginalLink = linkMap.OriginalLink,
+                Shorted = linkMap.Shorted
+            };
         }
 
         private static string RandomString()

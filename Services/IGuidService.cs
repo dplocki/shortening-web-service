@@ -3,6 +3,6 @@
     public interface IGuidService
     {
         Guid NewGuid();
-        bool TryParseGuid(string id1, out Guid id);
+        bool TryParseGuid(string guid, out Guid id);
     }
 }

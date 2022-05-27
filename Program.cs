@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("MainDatabase")));
-builder.Services.AddScoped<ILinkService, LinkService>();
+builder.Services.AddScoped<ILinkMapService, LinkService>();
 builder.Services.AddScoped<IVisitReportService, VisitReportService>();
 builder.Services.AddScoped<IGuidService, GuidService>();
 

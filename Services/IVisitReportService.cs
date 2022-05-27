@@ -1,4 +1,4 @@
-﻿using ShorteningWebService.Database.Entities;
+﻿using ShorteningWebService.Services.Models;
 
 namespace ShorteningWebService.Services
 {
